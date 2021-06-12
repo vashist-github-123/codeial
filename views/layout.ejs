@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/layout.css">
+
+    <%- style %>
+    
+    
+
+    <!-- the purpose of layout is to commonly give the structure, styles to al
+    all pages at once which are inherited from it. -->
+</head>
+<body>
+
+    <%- include('_header'); -%>
+    
+    
+    
+    <%- body %>
+
+    
+     
+    <%- include('_footer'); -%>
+
+    <%- script %> 
+
+    
+</body>
+</html>
