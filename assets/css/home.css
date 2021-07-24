@@ -1,2 +1,11 @@
-body {
-  background-color: crimson; }
+#home-container {
+  display: flex; }
+  #home-container #feed-post {
+    width: 70%;
+    padding: 10px; }
+
+#user-friends {
+  width: 30%;
+  padding: 10px;
+  border-left: 1px solid lightgrey;
+  height: 100%; }

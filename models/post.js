@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
     content: {
-        type: string,
+        type: String,
         required: true,
 
     }, 
@@ -10,11 +10,19 @@ const postSchema = new mongoose.Schema({
         ref: 'User'
 
 
-    }
+    },
+
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
+    
 },{timestamps: true
 
 });
 
 const Post = mongoose.model('Post', postSchema);
 
-module.exports = Post;
+module.exports = Post; 

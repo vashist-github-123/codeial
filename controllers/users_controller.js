@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const fs = require('fs');
+const path = require('path');
 
 
 
@@ -6,11 +8,79 @@ module.exports.profile = function(req, res){
 
    // return res.end("<h1>User Profile</h1>");
 
-   return res.render('user_profile', {
-       title: "profile"
+   User.findById(req.params.id, function(err, user){
+       
+    return res.render('user_profile', {
+        title: "User Profile",
+        profile_user: user
+
 
    });
+   });
 };
+
+module.exports.update =  async function(req, res){
+//     if(req.user.id==req.params.id){
+
+//         User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+//             return res.redirect('back');
+      
+    
+//     });
+// }else{
+//     return res.status(401).send('Unauthorize');
+// }
+// }
+
+        if(req.user.id==req.params.id){
+
+            try{
+
+                let user = await User.findById(req.params.id);
+                User.uploadedAvatar(req, res, function(err){
+                    if(err){console.log('******multererror', err )}
+                    console.log(req.file);
+
+                    user.name = req.body.name;
+                    user.email = req.body.email;
+
+                    if(req.file){
+
+                        if(user.avatar){
+                            fs.unlinkSync(path.join(__dirname,'..', user.avatar));
+                        }
+
+
+
+
+
+                        // this is saving the path of the uploaded file into the avatar field in the user
+
+                        user.avatar = User.avatarPath + '/' + req.file.filename;
+
+            
+                    }
+                    user.save();
+
+                    return res.redirect('back');
+                });
+
+
+            }catch(err){
+                req.flash('error', err);
+                res.redirect('back');
+
+            }
+            
+            }else{
+            req.flash('error', 'Unauthorize!');
+            return res.status(401).send('Unauthorize');
+
+        }
+
+}
+
+
 
 // render the signup page
 
@@ -72,10 +142,13 @@ module.exports.create = function(req, res){
 
 
 module.exports.createSession = function(req, res){
+    console.log("hello I am here")
+     // req.flash('success', 'logged in successfully');
    return res.redirect('/');
 }
 
 module.exports.destroySession = function(req, res){
+    req.flash('success', 'logged out succesfully');
 
     req.logout();
 

@@ -1,13 +1,11 @@
 const express = require('express');
-
 const router = express.Router();
+const passport = require('passport');
 
-const postController = require('../controllers/post_controller');
 
-router.get('/create', postController.create);
-
-console.log("router at post running good");
-
+const postsController = require('../controllers/posts_controller');
+router.post('/create', passport.checkAuthentication, postsController.create);
+router.get('/destroy/:id', passport.checkAuthentication, postsController.destroy);
 
 
 module.exports = router;
