@@ -1,5 +1,6 @@
 
 <link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="/css/chat_box.css">
 
 
 <div id="home-container">
@@ -38,6 +39,8 @@
                 <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
             </p>
     <%}%>
+
+    <%- include('_chat_box') -%>
     
     </section>
 
@@ -45,4 +48,13 @@
 </div>
 
 <script src="/js/home_posts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+<script src="/js/chat_engine.js"></script>
+
+<% if(locals.user){ %>
+<script>
+    new ChatEngine('user-chat-box', '<%= locals.user.email %>');
+</script>
+
+<% } %>
 
